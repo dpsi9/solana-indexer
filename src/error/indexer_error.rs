@@ -5,6 +5,9 @@ pub enum IndexerError {
     #[error("Database error: {0}")]
     Database(#[from] SqlxError),
 
+    #[error("Config error: {0}")]
+    Config(#[from] config::ConfigError),
+
     #[error("Rpc error: {0}")]
     Rpc(String),
 
