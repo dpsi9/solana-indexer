@@ -93,7 +93,7 @@ impl AppConfig {
             // load from config file if it exists
             .add_source(File::with_name("config").required(false))
             // or override with environment variables
-            .add_source(Environment::with_prefix("SOLANA_INDEXER"))
+            .add_source(Environment::with_prefix("SOLANA_INDEXER").separator("__"))
             .build()
             .unwrap();
 

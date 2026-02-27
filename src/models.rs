@@ -2,12 +2,12 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use sqlx::prelude::FromRow;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, FromRow)]
 pub struct RawBlock {
-    pub slot: u64,
+    pub slot: i64,
     pub block_data: serde_json::Value,
     pub block_hash: String,
-    pub parent_slot: Option<u64>,
+    pub parent_slot: Option<i64>,
     pub parent_hash: Option<String>,
     pub processed_at: DateTime<Utc>,
     pub processing_duration_ms: Option<i32>,
@@ -15,19 +15,19 @@ pub struct RawBlock {
     pub updated_at: DateTime<Utc>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, FromRow)]
 pub struct SlotCursor {
     pub id: i16,
-    pub last_finalized_slot: u64,
+    pub last_finalized_slot: i64,
     pub last_updated: chrono::DateTime<chrono::Utc>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, FromRow)]
 pub struct DeadLetterQueueEntry {
     pub id: uuid::Uuid,
-    pub slot: u64,
+    pub slot: i64,
     pub error: String,
-    pub retry_count: u32,
+    pub retry_count: i32,
     pub last_retry: Option<chrono::DateTime<chrono::Utc>>,
     pub created_at: chrono::DateTime<chrono::Utc>,
     pub failed_at: chrono::DateTime<chrono::Utc>,
@@ -35,28 +35,28 @@ pub struct DeadLetterQueueEntry {
 
 #[derive(Debug)]
 pub struct CreateRawBlock {
-    pub slot: u64,
+    pub slot: i64,
     pub data: serde_json::Value,
     pub block_hash: String,
-    pub parent_slot: Option<u64>,
+    pub parent_slot: Option<i64>,
     pub parent_hash: Option<String>,
     pub processing_duration_ms: Option<i32>,
 }
 
 #[derive(Debug)]
 pub struct CreateDlqEntry {
-    pub slot: u64,
+    pub slot: i64,
     pub error: String,
 }
 
 #[derive(Debug, Clone)]
 pub struct FetchRequest {
-    pub slot: u64,
+    pub slot: i64,
     pub retry_count: u32,
 }
 
 #[derive(Debug, Clone)]
 pub struct BlockBatch {
-    pub slots: Vec<u64>,
+    pub slots: Vec<i64>,
     pub blocks: Vec<RawBlock>,
 }
