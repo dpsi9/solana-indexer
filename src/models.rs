@@ -28,9 +28,9 @@ pub struct DeadLetterQueueEntry {
     pub slot: i64,
     pub error: String,
     pub retry_count: i32,
-    pub last_retry: Option<chrono::DateTime<chrono::Utc>>,
-    pub created_at: chrono::DateTime<chrono::Utc>,
-    pub failed_at: chrono::DateTime<chrono::Utc>,
+    pub last_retry: Option<DateTime<Utc>>,
+    pub created_at: DateTime<Utc>,
+    pub failed_at: DateTime<Utc>,
 }
 
 #[derive(Debug)]
